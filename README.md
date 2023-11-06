@@ -9,7 +9,7 @@
 Исходя из того, что проект учебный, это была моя первая практика работы с JDBC, Spring, логированием и SQL.
 
 ## База данных проекта
-![]()
+![](https://github.com/Chernosmaga/catsgram/blob/master/src/main/resources/catsgram.png)
 
 ## Планы по доработке проекта
 * реализовать валидацию сущностей
