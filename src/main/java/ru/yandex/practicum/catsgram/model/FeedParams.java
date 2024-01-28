@@ -8,5 +8,5 @@ import java.util.List;
 public class FeedParams {
     private String sort;
     private Integer size;
-    private List<String> friendsEmails;
+    private List<Long> friends;
 }
