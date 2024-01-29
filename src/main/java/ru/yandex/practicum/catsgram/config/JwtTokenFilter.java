@@ -1,6 +1,7 @@
 package ru.yandex.practicum.catsgram.config;
 
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.io.IOException;
 public class JwtTokenFilter extends GenericFilterBean {
     private final JwtTokenProvider provider;
 
+    @Autowired
     public JwtTokenFilter(JwtTokenProvider provider) {
         this.provider = provider;
     }

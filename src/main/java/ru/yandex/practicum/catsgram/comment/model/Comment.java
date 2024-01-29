@@ -1,28 +1,32 @@
-package ru.yandex.practicum.catsgram.post.model;
+package ru.yandex.practicum.catsgram.comment.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.yandex.practicum.catsgram.post.model.Post;
 import ru.yandex.practicum.catsgram.user.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Data
 @Entity
-@Table(name = "posts")
+@Table(name = "comments")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post {
+public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
+    private String text;
     @ManyToOne
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "post_id")
+    private Post post;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User author;
-    private String description;
-    @Column(name = "photo_url")
-    private String photoUrl;
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 }

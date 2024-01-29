@@ -10,8 +10,8 @@ import static ru.yandex.practicum.catsgram.enums.Permission.*;
 
 @Getter
 public enum Role {
-    USER(Set.of(USER_CREATE ,USER_UPDATE, USER_GET, USER_DELETE)),
-    ADMIN(Set.of(USER_CREATE, USER_UPDATE, USER_GET, USER_DELETE));
+    USER(Set.of(USER_CREATE ,USER_UPDATE, USER_GET, USER_DELETE, COMMENT_CREATE, COMMENT_DELETE, COMMENT_GET)),
+    ADMIN(Set.of(USER_CREATE, USER_UPDATE, USER_GET, USER_DELETE, COMMENT_DELETE, COMMENT_GET));
 
 
     private final Set<Permission> permissions;

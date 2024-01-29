@@ -7,6 +7,7 @@ import ru.yandex.practicum.catsgram.enums.Role;
 import ru.yandex.practicum.catsgram.enums.Status;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 import static javax.persistence.EnumType.STRING;
 
@@ -29,4 +30,6 @@ public class User {
     @Enumerated(STRING)
     @CollectionTable(name = "status", joinColumns = @JoinColumn(name = "user_id"))
     private Status status;
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
 }
