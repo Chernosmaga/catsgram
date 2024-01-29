@@ -11,7 +11,10 @@ public enum Permission {
     POST_CREATE("post:create"),
     POST_DELETE("post:delete"),
     POST_UPDATE("post:update"),
-    POST_GET("post:get");
+    POST_GET("post:get"),
+    COMMENT_CREATE("comment:create"),
+    COMMENT_DELETE("comment:delete"),
+    COMMENT_GET("comment:get");
 
     private final String permission;
 

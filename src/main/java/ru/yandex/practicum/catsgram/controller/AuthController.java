@@ -22,6 +22,7 @@ import ru.yandex.practicum.catsgram.user.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.ValidationException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +74,7 @@ public class AuthController {
         user.setPassword(encoder.encode(regRequest.getPassword()));
         user.setRole(USER);
         user.setStatus(ACTIVE);
+        user.setCreationDate(LocalDateTime.now());
         repository.save(user);
 
         authenticationManager

@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,6 +33,7 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private Long validityInMillis;
 
+    @Autowired
     public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService service) {
         this.service = service;
     }
