@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.catsgram.subscription.model.Subscription;
 import ru.yandex.practicum.catsgram.user.model.User;
 
+import java.util.List;
+
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
     boolean existsByAuthorAndFollower(User author, User follower);
@@ -16,4 +18,6 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     Page<Subscription> findAllByAuthor(User author, Pageable page);
 
     Page<Subscription> findAllByFollower(User follower, Pageable page);
+
+    List<Subscription> findAllByFollower(User follower);
 }

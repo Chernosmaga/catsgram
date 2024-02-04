@@ -18,7 +18,12 @@ public enum Permission {
     FOLLOW("follow:create"),
     UNFOLLOW("follow:delete"),
     FOLLOW_GET("follow:get"),
-    FEED_GET("feed:get");
+    FEED_GET("feed:get"),
+    LIKE_POST("like:create"),
+    LIKE_DELETE("like:delete"),
+    LIKE_GET("like:get"),
+    FOLLOWING_POPULAR_GET("following_popular:get"),
+    WORLDWIDE_POPULAR_GET("worldwide_popular:get");
 
     private final String permission;
 
