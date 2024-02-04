@@ -3,6 +3,7 @@ drop table if exists posts cascade;
 drop table if exists subscriptions cascade;
 drop table if exists comments cascade;
 drop table if exists post_comments cascade;
+drop table if exists likes cascade;
 
 create table if not exists users (
     id bigint generated always as identity primary key not null,
@@ -20,7 +21,8 @@ create table if not exists posts (
     author_id bigint not null references users (id) on delete cascade,
     creation_date timestamp without time zone,
     description varchar not null,
-    photo_url varchar not null
+    photo_url varchar not null,
+    likes bigint
 );
 
 create table if not exists subscriptions (
@@ -41,4 +43,11 @@ create table if not exists comments (
 create table if not exists post_comments (
     post_id bigint not null references posts (id) on delete cascade,
     comment_id bigint not null references comments (id) on delete cascade
+);
+
+create table if not exists likes (
+    id bigint generated always as identity primary key,
+    user_id bigint not null references users (id) on delete cascade,
+    post_id bigint not null references posts (id) on delete cascade,
+    time timestamp without time zone not null
 );

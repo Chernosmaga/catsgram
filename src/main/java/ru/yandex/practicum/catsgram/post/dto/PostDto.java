@@ -16,5 +16,6 @@ public class PostDto {
     private UserShortDto author;
     private String description;
     private String photoUrl;
+    private Long likes;
     private List<CommentDto> comments;
 }

@@ -53,8 +53,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto update(Long userId, Long postId, ShortPostDto post) {
         User user = findUser(userId);
-        Post thisPost = postRepository.findById(postId)
-                .orElseThrow(() -> new NotFoundException("Пост не найден"));
+        Post thisPost = findPost(postId);
         if (!thisPost.getAuthor().equals(user)) {
             throw new AccessException("Нет доступа");
         }
@@ -71,8 +70,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto getById(Long userId, Long postId) {
         User user = findUser(userId);
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new NotFoundException("Пост не найден"));
+        Post post = findPost(postId);
         PostDto thisPost = postMapper.toPostDto(post);
         thisPost.setComments(getComments(post));
         log.info("Пользователь {} запросил пост: {}", user, thisPost);
@@ -82,8 +80,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deleteById(Long userId, Long postId) {
         User user = findUser(userId);
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new NotFoundException("Пост не найден"));
+        Post post = findPost(postId);
         log.info("Пользователь {} удалил пост: {}", user, post);
         commentRepository.deleteAllByPost(post);
         postRepository.delete(post);
@@ -103,6 +100,10 @@ public class PostServiceImpl implements PostService {
     private User findUser(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+    }
+
+    private Post findPost(Long postId) {
+        return postRepository.findById(postId).orElseThrow(() -> new NotFoundException("Пост не найден"));
     }
 
     private List<CommentDto> getComments(Post post) {

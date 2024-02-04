@@ -25,4 +25,5 @@ public class Post {
     private String photoUrl;
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
+    private Long likes;
 }

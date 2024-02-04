@@ -10,8 +10,9 @@ import ru.yandex.practicum.catsgram.user.model.User;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    Comment findByPostAndAuthor(Post post, User author);
     List<Comment> findAllByPost(Post post);
+
     void deleteAllByPost(Post post);
+
     Page<Comment> findAllByAuthor(User author, Pageable pageable);
 }
