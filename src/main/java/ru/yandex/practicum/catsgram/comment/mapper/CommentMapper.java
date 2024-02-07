@@ -6,7 +6,5 @@ import ru.yandex.practicum.catsgram.comment.model.Comment;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
-    Comment toComment(CommentDto comment);
-
     CommentDto toCommentDto(Comment comment);
 }

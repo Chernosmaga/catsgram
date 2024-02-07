@@ -29,4 +29,13 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query(value = "select * from posts as s where s.author_id in (?1) and s.creation_date > ?2 order by s.likes",
             nativeQuery = true)
     Page<Post> findFollowingPopularToday(List<User> users, LocalDateTime date, Pageable page);
+
+    Page<Post> findAllByDescriptionContainingIgnoreCaseOrTagTextContainingIgnoreCaseOrderByCreationDateDesc(
+            String text, String tag, Pageable page);
+
+    Page<Post> findAllByAuthorIsInAndDescriptionContainingIgnoreCaseOrTagTextContainingIgnoreCaseOrderByCreationDateDesc(
+            List<User> users, String text, String tag, Pageable page);
+
+    Page<Post> findAllByDescriptionContainingIgnoreCaseOrTagTextContainingIgnoreCaseOrderByLikesDesc(
+            String text, String tag, Pageable page);
 }

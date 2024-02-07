@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.yandex.practicum.catsgram.comment.dto.CommentDto;
+import ru.yandex.practicum.catsgram.post.model.Tag;
 import ru.yandex.practicum.catsgram.user.dto.UserShortDto;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class PostDto {
     private UserShortDto author;
     private String description;
     private String photoUrl;
+    private List<Tag> tags;
     private Long likes;
     private List<CommentDto> comments;
 }

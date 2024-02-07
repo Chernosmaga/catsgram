@@ -25,5 +25,17 @@ public class Post {
     private String photoUrl;
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
+    @ManyToOne
+    @JoinColumn(name = "tag_id")
+    private Tag tag;
     private Long likes;
+
+    public Post(Long id, User author, String description, String photoUrl, LocalDateTime creationDate, Long likes) {
+        this.id = id;
+        this.author = author;
+        this.description = description;
+        this.photoUrl = photoUrl;
+        this.creationDate = creationDate;
+        this.likes = likes;
+    }
 }
