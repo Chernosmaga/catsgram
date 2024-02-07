@@ -21,4 +21,4 @@
 Java 17, Spring Data Jpa, Spring, Hibernate, Lombok, Mapstruct, JUnit, Spring Security, Hamcrest, PostgreSQL и JJWT
 
 ## База данных проекта
-![](https://github.com/Chernosmaga/catsgram/blob/master/src/main/resources/catsgram.png)
+![](https://github.com/Chernosmaga/catsgram/blob/master/src/main/resources/catsgram%201.0.png)
