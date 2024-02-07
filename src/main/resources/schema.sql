@@ -4,6 +4,13 @@ drop table if exists subscriptions cascade;
 drop table if exists comments cascade;
 drop table if exists post_comments cascade;
 drop table if exists likes cascade;
+drop table if exists tags cascade;
+
+
+create table if not exists tags (
+    id bigint generated always as identity primary key,
+    text varchar
+);
 
 create table if not exists users (
     id bigint generated always as identity primary key not null,
@@ -22,7 +29,8 @@ create table if not exists posts (
     creation_date timestamp without time zone,
     description varchar not null,
     photo_url varchar not null,
-    likes bigint
+    likes bigint,
+    tag_id bigint references tags (id) on delete cascade
 );
 
 create table if not exists subscriptions (
