@@ -28,9 +28,9 @@ public class LikeServiceImplTest {
     private final PostRepository postRepository;
     private final LikeService likeService;
     private final User first = new User(null, "user@mail.ru", "username", "username",
-            "user password", USER, ACTIVE, LocalDateTime.now().minusDays(2));
+            "user password", USER, ACTIVE, LocalDateTime.now().minusDays(2), false);
     private final User second = new User(null, "follower@mail.ru", "follower", "follower",
-            "follower password", USER, ACTIVE, LocalDateTime.now().minusDays(1));
+            "follower password", USER, ACTIVE, LocalDateTime.now().minusDays(1), false);
 
     @AfterEach
     void afterEach() {

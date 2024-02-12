@@ -8,7 +8,7 @@ public interface UserService {
 
     UserDto getAccount(Long userId);
 
-    UserShortDto getById(Long userId);
+    UserShortDto getById(Long requesterId, Long userId);
 
     void deleteById(Long userId);
 }

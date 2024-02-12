@@ -36,11 +36,13 @@ public class PostServiceImplTest {
     private final CommentRepository commentRepository;
     private final CommentService commentService;
     private final User user = new User(null, "user@mail.ru", "username", "nickname",
-            "password", USER, ACTIVE, LocalDateTime.now().minusDays(2));
+            "password", USER, ACTIVE, LocalDateTime.now().minusDays(2), false);
     private final User secondUser = new User(null, "second@mail.ru", "second username",
-            "second nickname", "second password", USER, ACTIVE, LocalDateTime.now().minusDays(1));
+            "second nickname", "second password", USER, ACTIVE, LocalDateTime.now().minusDays(1),
+            false);
     private final User thirdUser = new User(null, "third@mail.ru", "third username",
-            "third nickname", "third password", USER, ACTIVE, LocalDateTime.now().minusDays(3));
+            "third nickname", "third password", USER, ACTIVE, LocalDateTime.now().minusDays(3),
+            false);
 
     @AfterEach
     void afterEach() {

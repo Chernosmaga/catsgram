@@ -46,4 +46,21 @@ public class SubscriptionController {
                                            @RequestParam(defaultValue = "10") int size) {
         return subscriptionService.getFollowing(userId, from, size);
     }
+
+    @PatchMapping("/requests/{userId}")
+    @PreAuthorize("hasAuthority('follow:create')")
+    @ResponseStatus(NO_CONTENT)
+    public void approveFollowing(@PathVariable Long userId,
+                                 @RequestParam Long requesterId,
+                                 @RequestParam Boolean isApproved) {
+        subscriptionService.approveFollowing(userId, requesterId, isApproved);
+    }
+
+    @GetMapping("/requests/{userId}")
+    @PreAuthorize("hasAuthority('follow:get')")
+    public List<UserShortDto> getRequests(@PathVariable Long userId,
+                                          @RequestParam(defaultValue = "0") int from,
+                                          @RequestParam(defaultValue = "10") int size) {
+        return subscriptionService.getRequesters(userId, from, size);
+    }
 }

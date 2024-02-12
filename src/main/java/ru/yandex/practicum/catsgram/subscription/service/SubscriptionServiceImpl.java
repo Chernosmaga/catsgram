@@ -38,8 +38,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription.setAuthor(user);
         subscription.setFollower(follower);
         subscription.setSubscriptionTime(LocalDateTime.now());
-        subscriptionRepository.save(subscription);
-        log.info("Пользователь {} подписался на пользователя {}", follower, user);
+        subscription.setIsApproved(user.getIsClosed().equals(true) ? sendRequest(follower, user) : true);
+        Subscription saved = subscriptionRepository.save(subscription);
+        if (saved.getIsApproved()) {
+            log.info("Пользователь {} подписался на пользователя {}", follower, user);
+        }
     }
 
     @Override
@@ -51,6 +54,26 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
         subscriptionRepository.delete(subscriptionRepository.findByAuthorAndFollower(user, follower));
         log.info("Пользователь {} отписался от пользователя {}", follower, user);
+    }
+
+    @Override
+    public void approveFollowing(Long userId, Long requesterId, Boolean isApproved) {
+        User user = findUser(userId);
+        User requester = findUser(requesterId);
+        Subscription found = subscriptionRepository.findByAuthorAndFollowerAndIsApprovedFalse(user, requester);
+        found.setIsApproved(isApproved);
+        subscriptionRepository.save(found);
+        log.info("Пользователь {} подтвердил/отклонил запрос от пользователя {}", user, requester);
+    }
+
+    @Override
+    public List<UserShortDto> getRequesters(Long userId, int from, int size) {
+        PageRequest page = PageRequest.of(from, size, DESC, "subscriptionTime");
+        User user = findUser(userId);
+        List<UserShortDto> pending = subscriptionRepository.findAllByAuthorAndIsApproved(user, false, page)
+                .stream().map(Subscription::getFollower).map(userMapper::toUserShortDto).collect(Collectors.toList());
+        log.info("Пользователь вернул список запросов на подписку: {}", pending);
+        return pending;
     }
 
     @Override
@@ -73,6 +96,16 @@ public class SubscriptionServiceImpl implements SubscriptionService {
                 .map(userMapper::toUserShortDto).collect(Collectors.toList());
         log.info("Пользователь вернул список подписок: {}", subscriptions);
         return subscriptions;
+    }
+
+    private boolean sendRequest(User requester, User user) {
+        Subscription subscription = new Subscription();
+        subscription.setAuthor(user);
+        subscription.setFollower(requester);
+        subscription.setSubscriptionTime(LocalDateTime.now());
+        subscription.setIsApproved(false);
+        log.info("Пользователь {} отправил запрос на подписку на пользователя {}", requester, user);
+        return false;
     }
 
     private User findUser(Long userId) {

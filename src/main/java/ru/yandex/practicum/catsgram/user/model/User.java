@@ -32,4 +32,6 @@ public class User {
     private Status status;
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
+    @Column(name = "is_closed")
+    private Boolean isClosed;
 }

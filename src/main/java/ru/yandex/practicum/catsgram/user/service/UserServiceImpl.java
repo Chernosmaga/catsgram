@@ -3,7 +3,9 @@ package ru.yandex.practicum.catsgram.user.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.catsgram.exception.AccessException;
 import ru.yandex.practicum.catsgram.exception.NotFoundException;
+import ru.yandex.practicum.catsgram.subscription.repository.SubscriptionRepository;
 import ru.yandex.practicum.catsgram.user.dto.UserDto;
 import ru.yandex.practicum.catsgram.user.dto.UserShortDto;
 import ru.yandex.practicum.catsgram.user.mapper.UserMapper;
@@ -15,6 +17,7 @@ import ru.yandex.practicum.catsgram.user.repository.UserRepository;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final SubscriptionRepository subscriptionRepository;
     private final UserMapper userMapper;
 
     @Override
@@ -27,15 +30,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getAccount(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        User user = findUser(userId);
         log.info("Возвращены данные о владельце аккаунта: {}", user);
         return userMapper.toUserDto(user);
     }
 
     @Override
-    public UserShortDto getById(Long userId) {
+    public UserShortDto getById(Long requesterId, Long userId) {
         User user = findUser(userId);
+        User requester = findUser(requesterId);
+        if (user.getIsClosed() && !subscriptionRepository.existsByAuthorAndFollower(user, requester)) {
+            throw new AccessException("Это закрытый аккаунт");
+        }
         log.info("Возвращены данные о пользователе: {}", user);
         return userMapper.toUserShortDto(user);
     }
@@ -58,6 +64,9 @@ public class UserServiceImpl implements UserService {
         }
         if (!user.getNickname().isEmpty()) {
             thisUser.setNickname(user.getNickname());
+        }
+        if (user.getIsClosed() != null) {
+            thisUser.setIsClosed(user.getIsClosed());
         }
         log.info("Данные о пользователе прошли валидацию: {}", thisUser);
         return thisUser;

@@ -27,4 +27,6 @@ public class Subscription {
     private User follower;
     @Column(name = "subscription_time")
     private LocalDateTime subscriptionTime;
+    @Column(name = "is_approved")
+    private Boolean isApproved;
 }

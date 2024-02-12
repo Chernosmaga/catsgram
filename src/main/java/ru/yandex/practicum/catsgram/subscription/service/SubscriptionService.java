@@ -9,6 +9,10 @@ public interface SubscriptionService {
 
     void unfollow(Long followerId, Long userId);
 
+    void approveFollowing(Long userId, Long requesterId, Boolean isApproved);
+
+    List<UserShortDto> getRequesters(Long userId, int from, int size);
+
     List<UserShortDto> getFollowers(Long userId, int from, int size);
 
     List<UserShortDto> getFollowing(Long userId, int from, int size);

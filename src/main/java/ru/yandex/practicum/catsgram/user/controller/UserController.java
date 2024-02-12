@@ -12,29 +12,29 @@ import ru.yandex.practicum.catsgram.user.service.UserService;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-    private final String HEADER = "User-Catsgram";
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{requesterId}")
     @PreAuthorize("hasAuthority('user:get')")
-    public UserShortDto getById(@PathVariable Long userId){
-        return userService.getById(userId);
+    public UserShortDto getById(@PathVariable Long requesterId,
+                                @RequestParam Long userId){
+        return userService.getById(requesterId, userId);
     }
 
-    @PutMapping
+    @PutMapping("/{userId}")
     @PreAuthorize("hasAuthority('user:update')")
-    public UserShortDto update(@RequestHeader(HEADER) Long userId, @RequestBody UserDto user) {
+    public UserShortDto update(@PathVariable Long userId, @RequestBody UserDto user) {
         return userService.update(userId, user);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{userId}")
     @PreAuthorize("hasAuthority('user:delete')")
-    public void delete(@RequestHeader(HEADER) Long userId) {
+    public void delete(@PathVariable Long userId) {
         userService.deleteById(userId);
     }
 
-    @GetMapping("/owner")
+    @GetMapping("/{userId}")
     @PreAuthorize("hasAuthority('user:get')")
-    public UserDto getByOwner(@RequestHeader(HEADER) Long userId) {
+    public UserDto getByOwner(@PathVariable Long userId) {
         return userService.getAccount(userId);
     }
 }

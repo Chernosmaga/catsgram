@@ -26,9 +26,12 @@ public class SubscriptionServiceImplTest {
     private final SubscriptionRepository subscriptionRepository;
     private final UserRepository userRepository;
     private final User user = new User(null, "user@mail.ru", "username", "username",
-            "user password", USER, ACTIVE, LocalDateTime.now().minusDays(2));
+            "user password", USER, ACTIVE, LocalDateTime.now().minusDays(2), false);
     private final User follower = new User(null, "follower@mail.ru", "follower", "follower",
-            "follower password", USER, ACTIVE, LocalDateTime.now().minusDays(1));
+            "follower password", USER, ACTIVE, LocalDateTime.now().minusDays(1), false);
+    private final User thirdUser = new User(null, "thirdUser@mail.ru", "third user",
+            "third user", "third user password", USER, ACTIVE, LocalDateTime.now().minusDays(3),
+            false);
 
     @AfterEach
     void afterEach() {
@@ -53,6 +56,44 @@ public class SubscriptionServiceImplTest {
 
         assertThrows(AccessException.class,
                 () -> subscriptionService.follow(thisFollower.getId(), author.getId()));
+    }
+
+    @Test
+    void getRequesters_shouldReturnListOfRequesters() {
+        user.setIsClosed(true);
+        User first = userRepository.save(user);
+        User second = userRepository.save(follower);
+        User third = userRepository.save(thirdUser);
+        subscriptionService.follow(second.getId(), first.getId());
+        subscriptionService.follow(third.getId(), first.getId());
+        List<UserShortDto> requests = subscriptionService.getRequesters(first.getId(), 0, 10);
+
+        assertFalse(requests.isEmpty());
+        assertEquals(2, requests.size());
+    }
+
+    @Test
+    void getRequesters_shouldReturnEmptyListIfThereAreNoRequests() {
+        user.setIsClosed(true);
+        User first = userRepository.save(user);
+        List<UserShortDto> requests = subscriptionService.getRequesters(first.getId(), 0, 10);
+
+        assertTrue(requests.isEmpty());
+    }
+
+    @Test
+    void approveFollowing_shouldApproveRequests() {
+        user.setIsClosed(true);
+        User first = userRepository.save(user);
+        User second = userRepository.save(follower);
+        User third = userRepository.save(thirdUser);
+        subscriptionService.follow(second.getId(), first.getId());
+        subscriptionService.follow(third.getId(), first.getId());
+        subscriptionService.approveFollowing(first.getId(), second.getId(), true);
+        List<UserShortDto> requests = subscriptionService.getRequesters(first.getId(), 0, 10);
+
+        assertFalse(requests.isEmpty());
+        assertEquals(1, requests.size());
     }
 
     @Test
