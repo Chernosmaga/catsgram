@@ -20,4 +20,8 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     Page<Subscription> findAllByFollower(User follower, Pageable page);
 
     List<Subscription> findAllByFollower(User follower);
+
+    Subscription findByAuthorAndFollowerAndIsApprovedFalse(User author, User requester);
+
+    Page<Subscription> findAllByAuthorAndIsApproved(User author, Boolean isApproved, Pageable page);
 }

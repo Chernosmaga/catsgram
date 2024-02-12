@@ -17,4 +17,5 @@ public class UserDto {
     @NotBlank
     private String username;
     private String nickname;
+    private Boolean isClosed;
 }

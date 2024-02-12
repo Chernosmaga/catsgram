@@ -31,9 +31,9 @@ public class FeedServiceImplTest {
     private final SubscriptionRepository subscriptionRepository;
     private final PostRepository postRepository;
     private final User author = new User(null, "user@mail.ru", "username", "username",
-            "user password", USER, ACTIVE, LocalDateTime.now().minusWeeks(1));
+            "user password", USER, ACTIVE, LocalDateTime.now().minusWeeks(1), false);
     private final User follower = new User(null, "follower@mail.ru", "follower", "follower",
-            "follower password", USER, ACTIVE, LocalDateTime.now().minusWeeks(2));
+            "follower password", USER, ACTIVE, LocalDateTime.now().minusWeeks(2), false);
 
     @AfterEach
     void afterEach() {
@@ -47,7 +47,8 @@ public class FeedServiceImplTest {
         User thisAuthor = userRepository.save(author);
         User thisFollower = userRepository.save(follower);
         subscriptionRepository
-                .save(new Subscription(null, thisAuthor, thisFollower, LocalDateTime.now().minusDays(1)));
+                .save(new Subscription(null, thisAuthor, thisFollower, LocalDateTime.now().minusDays(1),
+                        true));
         postRepository.save(new Post(null, thisAuthor, "first post",
                 "https://pic.link", LocalDateTime.now().minusHours(4), 0L));
         postRepository
@@ -113,7 +114,8 @@ public class FeedServiceImplTest {
                 .save(new Post(null, thisAuthor, "second post", "https://pics.link",
                         LocalDateTime.now().minusDays(2), 2L));
         subscriptionRepository
-                .save(new Subscription(null, thisAuthor, thisFollower, LocalDateTime.now().minusHours(2)));
+                .save(new Subscription(null, thisAuthor, thisFollower, LocalDateTime.now().minusHours(2),
+                        true));
         List<PostDto> posts = feedService.getFollowingPopular(thisFollower.getId(), ALL_TIME, 0, 10);
 
         assertFalse(posts.isEmpty());
@@ -130,7 +132,8 @@ public class FeedServiceImplTest {
                 .save(new Post(null, thisAuthor, "second post", "https://pics.link",
                         LocalDateTime.now().minusHours(2), 2L));
         subscriptionRepository
-                .save(new Subscription(null, thisAuthor, thisFollower, LocalDateTime.now().minusHours(2)));
+                .save(new Subscription(null, thisAuthor, thisFollower, LocalDateTime.now().minusHours(2),
+                        true));
         List<PostDto> posts = feedService.getFollowingPopular(thisFollower.getId(), TODAY, 0, 10);
 
         assertFalse(posts.isEmpty());

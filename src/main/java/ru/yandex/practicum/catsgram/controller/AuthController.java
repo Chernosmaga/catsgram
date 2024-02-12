@@ -75,6 +75,7 @@ public class AuthController {
         user.setRole(USER);
         user.setStatus(ACTIVE);
         user.setCreationDate(LocalDateTime.now());
+        user.setIsClosed(false);
         repository.save(user);
 
         authenticationManager
